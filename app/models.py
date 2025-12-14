@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
 
 class Cliente(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome do Cliente")
@@ -23,9 +25,11 @@ class Produto(models.Model):
     nome = models.CharField(max_length=100, verbose_name="Nome do Produto")
     preco = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Preço Unitário/kg")
     tipo = models.CharField(max_length=2, choices=TIPOS_CHOICES, verbose_name="Tipo de Produto")
+    estoque = models.IntegerField(default=0, verbose_name="Estoque Disponível")
+
 
     def __str__(self):
-        return f'{self.nome} - R$ {self.preco}'
+        return f'{self.nome} - R$ {self.preco} - Quantidade em estoque: {self.estoque}'
         
     class Meta:
         verbose_name = "Produto"
@@ -53,14 +57,27 @@ class Comanda(models.Model):
 
 class ItemComanda(models.Model):
     comanda = models.ForeignKey(Comanda, on_delete=models.CASCADE, verbose_name="Comanda")
-    produto = models.ForeignKey('Produto', on_delete=models.CASCADE, verbose_name="Produto")
+    produto = models.ForeignKey("Produto", on_delete=models.CASCADE, verbose_name="Produto")
     quantidade = models.DecimalField(max_digits=10, decimal_places=2, default=1, verbose_name="Quantidade / kg")
 
     @property
     def subtotal(self):
         return self.produto.preco * self.quantidade
 
-    
+    def clean(self):
+        if self.produto.tipo =='PR':
+            if self.quantidade > self.produto.estoque:
+                raise ValidationError(f'Estoque insuficiente para o produto {self.produto.nome}. Estoque disponível: {self.produto.estoque}')
+            
+    def save(self, *args, **kwargs):
+        if not self.pk and self.produto.tipo == 'PR':
+            self.produto.estoque -= self.quantidade
+            self.produto.save()
+
+        super().save(*args, **kwargs)
+
+
+
     def __str__(self):
         return f"{self.quantidade} - {self.produto.nome}"
     

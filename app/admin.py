@@ -16,8 +16,9 @@ class ComandaAdmin(admin.ModelAdmin):
     total.short_description = 'Total da Comanda'
 
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'preco', 'tipo')
+    list_display = ('nome', 'preco', 'tipo', 'estoque')
     list_filter = ('tipo',)
+    search_fields = ('nome',)
 
 admin.site.register(Cliente)
 admin.site.register(Produto, ProdutoAdmin)
