@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo }} - Fishing Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-success mb-4">
+        <a class="navbar-brand" href="{% url 'index' %}">Fishing Management</a>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0 text-success">{{ titulo }}</h4>
+                    </div>
+                    <div class="card-body">
+                        
+                        <form method="post">
+                            {% csrf_token %} {% for field in form %}
+                                <div class="form-group">
+                                    <label><strong>{{ field.label }}</strong></label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        <div class="text-danger small">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'cliente_list' %}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-success px-4">Salvar</button>
+                            </div>
+                        </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

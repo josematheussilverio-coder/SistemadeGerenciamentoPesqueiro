@@ -2,32 +2,26 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fishing Management - Comandas</title>
+    <title>Comandas - Fishing Management</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-light">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <a class="navbar-brand" href="{% url 'index' %}">Fishing Management</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Início</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'cliente_list' %}">Clientes</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'produto_list' %}">Produtos</a></li>
                 <li class="nav-item active"><a class="nav-link" href="{% url 'comanda_list' %}">Comandas</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container mt-5">
-        
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Histórico de Comandas</h2>
-            <a href="/admin/app/comanda/add/" class="btn btn-success">+ Nova Comanda</a>
+            <h2>Gestão de Comandas</h2>
+            <a href="{% url 'comanda_create' %}" class="btn btn-success">+ Nova Comanda</a>
         </div>
 
         <div class="card shadow-sm">
@@ -37,7 +31,6 @@
                         <tr>
                             <th># ID</th>
                             <th>Cliente</th>
-                            <th>Data</th>
                             <th>Status</th>
                             <th>Total</th>
                             <th>Ações</th>
@@ -47,9 +40,7 @@
                         {% for comanda in comandas %}
                         <tr>
                             <td>#{{ comanda.id }}</td>
-                            <td><strong>{{ comanda.cliente.nome }}</strong></td>
-                            <td>{{ comanda.data_criacao|date:"d/m/Y H:i" }}</td>
-                            
+                            <td>{{ comanda.cliente.nome }}</td>
                             <td>
                                 {% if comanda.aberta %}
                                     <span class="badge badge-success">Aberta</span>
@@ -57,25 +48,24 @@
                                     <span class="badge badge-secondary">Fechada</span>
                                 {% endif %}
                             </td>
-                            
                             <td>R$ {{ comanda.total }}</td>
-                            
+                            <td>
+                                <a href="{% url 'comanda_detail' comanda.id %}" class="btn btn-sm btn-info">
+                                    Ver Detalhes
+                                </a>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="6" class="text-center py-4 text-muted">Nenhuma comanda registrada.</td>
+                            <td colspan="5" class="text-center py-4 text-muted">
+                                Nenhuma comanda registrada.
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        <br>
-        <a href="{% url 'index' %}" class="btn btn-secondary">Voltar</a>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

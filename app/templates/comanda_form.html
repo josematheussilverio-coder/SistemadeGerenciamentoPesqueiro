@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Comanda - Fishing Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-dark bg-success mb-4">
+        <a class="navbar-brand" href="{% url 'index' %}">Fishing Management</a>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-white">
+                        <h4 class="mb-0 text-success">Abrir Nova Comanda</h4>
+                    </div>
+                    <div class="card-body">
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <label><strong>Selecione o Cliente:</strong></label>
+                                    <select name="{{ field.name }}" class="form-control" id="{{ field.id_for_label }}">
+                                        {% for val, text in field.field.choices %}
+                                            <option value="{{ val }}" {% if field.value == val %}selected{% endif %}>{{ text }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    
+                                    {% if field.errors %}
+                                        <div class="text-danger small">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'comanda_list' %}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-success px-4">Abrir Comanda</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagar Comanda</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-primary shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Tem certeza?</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="mb-4">Você está prestes a pagar a comanda #{{ comanda.id }} o que irá excluí-la</h5>
+                        <p class="text-muted">
+                            Cliente: <strong>{{ comanda.cliente.nome }}</strong><br>
+                            Total: R$ {{ comanda.total }}
+                        </p>
+                        <p class="text-primary small">Essa ação não pode ser desfeita e todos os itens desta comanda também serão apagados.</p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'comanda_list' %}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-primary px-4">Confirmar Pagamento</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
