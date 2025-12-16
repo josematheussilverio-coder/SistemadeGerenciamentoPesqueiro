@@ -15,6 +15,7 @@ urlpatterns = [
     path('comanda/<int:pk>/', ComandaDetailView.as_view(), name='comanda_detail'),
     path('comanda/<int:pk>/adicionar-item/', AdicionarItemView.as_view(), name='adicionar_item'),
     path('comanda/<int:pk>/excluir/', ComandaDeleteView.as_view(), name='comanda_delete'),
+    path('produto/novo/', ProdutoCreateView.as_view(), name='produto_create' ),
 ]
 
 

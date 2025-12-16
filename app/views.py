@@ -86,3 +86,9 @@ class ComandaDeleteView(DeleteView):
     model = Comanda
     template_name = 'comanda_delete.html'
     success_url = reverse_lazy('comanda_list')
+    
+class ProdutoCreateView(CreateView):
+    model = Produto
+    form_class = ProdutoForm
+    template_name = 'produto_form.html'
+    success_url = reverse_lazy('produto_list')
