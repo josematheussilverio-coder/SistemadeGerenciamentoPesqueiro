@@ -15,12 +15,14 @@
     </nav>
 
     <div class="container">
+        
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Itens Consumidos</h5>
             <a href="{% url 'adicionar_item' comanda.id %}" class="btn btn-primary btn-sm">
                 + Adicionar Produto
             </a>
         </div>
+
         <div class="card shadow mb-4">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <h4 class="text-success mb-0">Comanda #{{ comanda.id }}</h4>
@@ -56,22 +58,27 @@
                             <th class="text-center">Qtd</th>
                             <th class="text-right">Preço Unit.</th>
                             <th class="text-right">Subtotal</th>
+                            <th class="text-center" style="width: 50px;">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in comanda.itemcomanda_set.all %}
                         <tr>
                             <td>{{ item.produto.nome }}</td>
-                            <td class="text-center">{{ item.quantidade }}</td>
+                            <td class="text-center">{{ item.quantidade|floatformat:1 }}</td>
                             <td class="text-right">R$ {{ item.produto.preco }}</td>
-                            <td class="text-right"><strong>R$ {{ item.subtotal }}</strong></td>
+                            <td class="text-right"><strong>R$ {{ item.subtotal|floatformat:2 }}</strong></td>
+                            
+                            <td class="text-center">
+                                <a href="{% url 'item_comanda_delete' item.id %}" class="btn btn-sm btn-outline-danger" title="Remover Item">
+                                    &times;
+                                </a>
+                            </td>
                         </tr>
                         {% empty %}
                         <tr>
-                            <td colspan="4" class="text-center py-4 text-muted">
+                            <td colspan="5" class="text-center py-4 text-muted">
                                 Nenhum item adicionado nesta comanda ainda.
-                                <br>
-                                <small>(Adicione itens pelo painel administrativo)</small>
                             </td>
                         </tr>
                         {% endfor %}
@@ -80,9 +87,12 @@
                     <tfoot class="bg-white">
                         <tr>
                             <td colspan="3" class="text-right pt-3"><strong>TOTAL A PAGAR:</strong></td>
+                            
                             <td class="text-right pt-3 text-success">
-                                <h4 class="font-weight-bold">R$ {{ comanda.total }}</h4>
+                                <h4 class="font-weight-bold">R$ {{ comanda.total|floatformat:2 }}</h4>
                             </td>
+                            
+                            <td></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -92,11 +102,9 @@
         <br>
         <div class="text-center mb-5">
             <a href="{% url 'comanda_list' %}" class="btn btn-secondary">Voltar</a>
-            <a href="{% url 'comanda_delete' comanda.id %}" class="btn btn-danger ml-2">Pagar Comanda</a>
-            <a href="/admin/app/comanda/{{ comanda.id }}/change/" target="_blank" class="btn btn-outline-dark">
-                Gerenciar Itens (Admin)
-            </a>
-        </div>
+            <a href="{% url 'comanda_delete' comanda.id %}" class="btn btn-primary ml-2">Pagar Comanda</a>
+            
+            </div>
     </div>
 
 </body>

@@ -44,7 +44,13 @@
                     <tbody>
                         {% for produto in produtos %}
                         <tr>
-                            <td><strong>{{ produto.nome }}</strong></td>
+                            <td class="d-flex justify-content-between align-items-center">
+                                 <span>{{ produto.nome }}</span>
+    
+                                    <a href="{% url 'produto_delete' produto.id %}" class="btn btn-sm btn-outline-danger ml-2" title="Excluir">
+                                        🗑️
+                                    </a>
+                            </td>
                             
                             <td><span class="badge badge-info">{{ produto.get_tipo_display }}</span></td>
                             

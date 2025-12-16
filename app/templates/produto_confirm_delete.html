@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Excluir Produto</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-danger shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">Excluir Produto</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="mb-4">Tem certeza que deseja apagar?</h5>
+                        
+                        <div class="alert alert-danger">
+                            Produto: <strong>{{ object.nome }}</strong><br>
+                            Preço: R$ {{ object.preco }}
+                        </div>
+
+                        <p class="text-danger small">
+                            Cuidado: Se este produto já foi vendido em alguma comanda, 
+                            isso pode gerar erro ou sumir do histórico!
+                        </p>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'produto_list' %}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-danger px-4">Confirmar Exclusão</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

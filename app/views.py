@@ -92,3 +92,16 @@ class ProdutoCreateView(CreateView):
     form_class = ProdutoForm
     template_name = 'produto_form.html'
     success_url = reverse_lazy('produto_list')
+
+
+class ProdutoDeleteView(DeleteView):
+    model = Produto
+    template_name = 'produto_confirm_delete.html'
+    success_url = reverse_lazy('produto_list')
+
+class ItemComandaDeleteView(DeleteView):
+    model = ItemComanda
+    template_name = 'item_comanda_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('comanda_detail', kwargs={'pk': self.object.comanda.id})

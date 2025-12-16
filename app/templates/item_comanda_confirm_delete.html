@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Remover Item</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-danger shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">Remover Item da Comanda</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="mb-4">Tem certeza que deseja remover este item?</h5>
+                        
+                        <div class="alert alert-warning">
+                            Produto: <strong>{{ object.produto.nome }}</strong><br>
+                            Quantidade: <strong>{{ object.quantidade }}</strong><br>
+                            Comanda: #{{ object.comanda.id }}
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'comanda_detail' object.comanda.id %}" class="btn btn-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-danger px-4">Confirmar Remoção</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
